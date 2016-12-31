@@ -13,6 +13,8 @@
  * GNU General Public License for more details.
  */
 
+#define CHROMEEC_DISABLE_BATTERY
+
 /* mainboard configuration */
 #include <mainboard/google/ninja/ec.h>
 
