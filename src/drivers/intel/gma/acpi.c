@@ -69,7 +69,7 @@ drivers_intel_gma_displays_ssdt_generate(const struct i915_gpu_controller_info *
 			acpigen_emit_namestring("^^XBCL");
 			acpigen_pop_len();
 
-#if !IS_ENABLED(CONFIG_SOC_INTEL_BROADWELL)
+#if !IS_ENABLED(CONFIG_SOC_INTEL_BROADWELL) && !IS_ENABLED(CONFIG_SOC_INTEL_BAYTRAIL)
 			/*
 			  Method (_BCM, 1, NotSerialized)
 			  {
