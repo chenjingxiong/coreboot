@@ -25,7 +25,7 @@ do
 
 	if [[ "${hsw[@]}" =~ "$device" || "${bdw[@]}" =~ "$device" ]]; then
 		cbfstool ${filename} add -f ./cbfs/bootorder.ssd -n bootorder -t raw
-		cbfstool ${filename} add -f ./cbfs/links.hswbdw -n links -t raw
+#		cbfstool ${filename} add -f ./cbfs/links.hswbdw -n links -t raw
 	elif [[ "${byt[@]}" =~ "$device" ]]; then
 		cbfstool ${filename} add -f ./cbfs/bootorder.emmc -n bootorder -t raw
 		cbfstool ${filename} add-int -i 0xd071f000 -n etc/sdcard0
@@ -41,19 +41,4 @@ do
 	cbfstool ${filename} print
 	md5sum ${filename} > ${filename}.md5
 	mv ${filename}* ~/firmware/
-
-	#special case peppy trackpad type
-	if [ "${device}" == "peppy" ]; then
-		filename="coreboot_seabios-peppy_elan-mrchromebox_`date +"%Y%m%d"`.rom"
-		rm -rf ./build
-		sed -i 's/# CONFIG_ELAN_TRACKPAD_ACPI is not set/CONFIG_ELAN_TRACKPAD_ACPI=y/' .config
-		make
-		cp ./build/coreboot.rom ./${filename}
-		cbfstool ${filename} add -f ./cbfs/bootorder.ssd -n bootorder -t raw
-		cbfstool ${filename} add -f ./cbfs/links.hswbdw -n links -t raw
-		cbfstool ${filename} add-int -i 3000 -n etc/boot-menu-wait
-		cbfstool ${filename} print
-		md5sum ${filename} > ${filename}.md5
-		mv ${filename}* ~/firmware/
-	fi
 done
